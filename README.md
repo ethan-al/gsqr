@@ -93,28 +93,17 @@ results/
 The `results/` folder is created automatically—no need to create it manually.
 To reproduce paper results, run with default parameters.
 
-## 🧠 PyTorch Training Code (Optional)
+## 🧠 PyTorch Training Code (Historical / Optional)
 
-This repository includes the PyTorch implementation used to train GraphSAGE node embeddings **offline** (optional).  
-The trained embeddings can serve as a "warm start" for the GSQR routing protocol in ns-3.
+This directory contains the original PyTorch scripts used in early development (v0.5) to generate GraphSAGE embeddings (`emb_16.csv`) for warm-start initialization.
+
+However, we discovered that **GSQR achieves superior performance through pure online learning** — initializing embeddings randomly and updating them during simulation. As a result, the final v1.0 implementation **does not require or use any pre-trained files**.
+
+The scripts are retained for transparency and potential future comparison.
 
 ### Files
-- `pytorch/train_embedding.py` – Main training script
+- `pytorch/train_embedding.py` – Training script (outputs to `outputs/`)
 - `pytorch/requirements.txt` – Python dependencies
-
-### Usage
-```bash
-cd pytorch
-pip install -r requirements.txt
-python train_embedding.py
-```
-This generates emb_16.csv in the pytorch/outputs/ directory.
-
-### Integration with ns-3
-To enable pre-trained embeddings:
-Copy `pytorch/outputs/emb_16.csv` to your ns-3.41 root directory.
-Recompile and run the simulation — the file is loaded by `gsqr-embedding.cc` via the hardcoded path `"emb_16.csv"`.
-Note: By default, GSQR uses random initialization to demonstrate online learning without external files.
 
 ## 📌 Versioning
 
